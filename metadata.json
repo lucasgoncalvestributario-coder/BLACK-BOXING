@@ -1,0 +1,6 @@
+{
+  "name": "BLACK BOXING",
+  "description": "Black Boxing - Academia de boxe, preparação física e treinamento personalizado com o treinador Dionei. Disciplina, técnica e resultado.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
