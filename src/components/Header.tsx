@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { SITE_CONFIG } from '../config/siteData';
 import { BrandLogo } from './BrandLogo';
-import { OfficialWhatsAppIcon, OfficialInstagramIcon } from './OfficialSocialLogos';
-import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { OfficialInstagramIcon } from './OfficialSocialLogos';
+import { Menu, X } from 'lucide-react';
 
 interface HeaderProps {
   onOpenWhatsAppModal: (optionId?: string) => void;
@@ -21,14 +21,15 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWhatsAppModal }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Links limpos e diretos - Pegada minimalista de alto impacto tipo Nike
   const navLinks = [
-    { num: '01', label: 'INÍCIO', href: '#inicio', desc: 'Abertura & Filosofia' },
-    { num: '02', label: 'BOXE', href: '#boxe', desc: 'Fundamentos da Nobre Arte' },
-    { num: '03', label: 'PERFORMANCE', href: '#performance', desc: 'Preparação Física' },
-    { num: '04', label: 'COMPETIÇÃO', href: '#competicao', desc: 'Ritmo de Combate' },
-    { num: '05', label: 'GALERIA', href: '#galeria', desc: 'Acervo dos Treinos' },
-    { num: '06', label: 'DIONEI', href: '#dionei', desc: 'Liderança Técnica' },
-    { num: '07', label: 'LOCALIZAÇÃO', href: '#contato', desc: 'Endereço & Mapa' },
+    { label: 'INÍCIO', href: '#inicio' },
+    { label: 'BOXE', href: '#boxe' },
+    { label: 'PERFORMANCE', href: '#performance' },
+    { label: 'COMPETIÇÃO', href: '#competicao' },
+    { label: 'GALERIA', href: '#galeria' },
+    { label: 'DIONEI', href: '#dionei' },
+    { label: 'LOCALIZAÇÃO', href: '#contato' },
   ];
 
   const handleNavClick = (href: string) => {
@@ -48,7 +49,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWhatsAppModal }) => {
             : 'h-[80px] sm:h-[96px] md:h-[110px]'
         }`}
       >
-        {/* Fundo do Header Oficial: Ringue Sombrio em Névoa (https://ibb.co/SwZ1wBCk) - Aceso e Nítido */}
+        {/* Fundo do Header Oficial: Ringue Sombrio em Névoa (https://ibb.co/SwZ1wBCk) */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           <img
             src="https://i.ibb.co/Dfj6fQ2B/Ringue-Sombrio-em-N-voa.png"
@@ -58,7 +59,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWhatsAppModal }) => {
             fetchPriority="high"
             className="w-full h-full object-cover object-center filter brightness-110 contrast-110 saturate-105"
           />
-          {/* Camada sutil para manter a imagem do ringue claramente visível */}
           <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-black/45" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60" />
         </div>
@@ -66,65 +66,48 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWhatsAppModal }) => {
         {/* Linha de acabamento superior suave */}
         <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none z-2" />
 
-        {/* Conteúdo do Header: Alinhado à esquerda para posicionar a Logo com máxima presença */}
-        <div className="w-full px-2 sm:px-6 md:px-8 h-full flex items-center justify-between relative z-10">
-          {/* 
-            LOGO BLACK BOXING:
-            - Ocupa 100% da altura do cabeçalho
-            - Posicionada mais à esquerda
-            - Presença dominante e proporcional
-          */}
+        {/* Conteúdo do Header */}
+        <div className="w-full pl-2 sm:pl-4 md:pl-6 pr-3 sm:pr-6 md:pr-8 h-full flex items-center justify-between relative z-10">
+          {/* Logo Black Boxing no canto superior esquerdo sem fundo */}
           <a
             href="#inicio"
             onClick={(e) => {
               e.preventDefault();
               handleNavClick('#inicio');
             }}
-            className="h-full flex items-center group focus:outline-none select-none transition-all duration-500 origin-left py-0 sm:py-1 pl-0 sm:pl-1"
+            className="h-full flex items-center group focus:outline-none select-none transition-all duration-300 origin-left py-1 pl-0 ml-0 bg-transparent shrink-0"
             aria-label="Black Boxing - Início"
           >
             <BrandLogo
-              className={`transition-all duration-500 w-auto h-full max-h-full ${
+              variant="white"
+              className={`transition-all duration-500 w-auto bg-transparent ${
                 isScrolled
-                  ? 'min-w-[170px] sm:min-w-[220px] md:min-w-[270px]'
-                  : 'min-w-[190px] sm:min-w-[260px] md:min-w-[340px]'
+                  ? 'h-[52px] sm:h-[62px] md:h-[72px]'
+                  : 'h-[68px] sm:h-[82px] md:h-[94px]'
               }`}
             />
           </a>
 
-          {/* Lado Direito: SOMENTE ÍCONES (Instagram, WhatsApp, Menu) */}
-          <div className="flex items-center gap-3 sm:gap-4 md:gap-5 pr-1 sm:pr-2">
-            {/* Instagram: Ícone Oficial Sem Fundo */}
+          {/* Lado Direito: SOMENTE Instagram e Menu (WhatsApp removido do topo conforme solicitado) */}
+          <div className="flex items-center gap-4 sm:gap-6 pr-1 sm:pr-2">
+            {/* Instagram Oficial */}
             <a
               href={SITE_CONFIG.contact.instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram @blackboxing_"
-              className="p-1 hover:scale-110 active:scale-95 transition-transform"
+              className="p-1 hover:scale-110 active:scale-95 transition-transform text-white"
               title="Instagram @blackboxing_"
             >
               <OfficialInstagramIcon className="w-6 h-6 sm:w-7 sm:h-7" />
             </a>
-
-            {/* WhatsApp: Ícone Oficial Sem Fundo */}
-            <button
-              onClick={() => onOpenWhatsAppModal()}
-              aria-label="Falar no WhatsApp"
-              className="p-1 hover:scale-110 active:scale-95 transition-transform focus:outline-none"
-              title="Falar no WhatsApp"
-            >
-              <OfficialWhatsAppIcon className="w-6 h-6 sm:w-7 sm:h-7" />
-            </button>
-
-            {/* Divisor vertical sutil */}
-            <span className="w-[1px] h-5 sm:h-6 bg-white/20 hidden sm:inline-block" />
 
             {/* Menu: Ícone de 3 linhas ☰ */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label={mobileMenuOpen ? 'Fechar navegação' : 'Abrir menu de navegação'}
               aria-expanded={mobileMenuOpen}
-              className="p-1 text-white hover:text-neutral-300 active:scale-95 transition-transform focus:outline-none"
+              className="p-1 text-white hover:text-neutral-300 active:scale-95 transition-transform focus:outline-none cursor-pointer"
             >
               {mobileMenuOpen ? (
                 <X className="w-7 h-7 sm:w-8 sm:h-8" />
@@ -135,81 +118,81 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWhatsAppModal }) => {
           </div>
         </div>
 
-        {/* Degradê Suave na Base do Cabeçalho para se Juntar como uma coisa só com o Hero (sem risco) */}
+        {/* Degradê Suave na Base do Cabeçalho */}
         <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-b from-transparent via-black/40 to-black pointer-events-none z-2" />
       </header>
 
-      {/* Menu Overlay Cinematográfico com Fundo Trabalhado e Títulos que Deslizam */}
+      {/* Menu Overlay Estilo Nike: Tipografia Gigante, Sem Quadrados, Sem Números, Puro Impacto Visual */}
       {mobileMenuOpen && (
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-35 bg-black/96 backdrop-blur-2xl pt-28 sm:pt-36 px-6 sm:px-12 flex flex-col justify-between pb-10 overflow-y-auto animate-fadeIn"
+          className="fixed inset-0 z-50 bg-black/98 backdrop-blur-2xl flex flex-col justify-between px-6 sm:px-14 md:px-20 pt-24 sm:pt-28 pb-10 overflow-y-auto animate-fadeIn"
         >
-          {/* Fundo do Menu: Ringue em Névoa + Grid + Spotlight */}
-          <div className="absolute inset-0 pointer-events-none opacity-20">
+          {/* Fundo Atmosférico de Ringue em Névoa */}
+          <div className="absolute inset-0 pointer-events-none opacity-15">
             <img
               src="https://i.ibb.co/Dfj6fQ2B/Ringue-Sombrio-em-N-voa.png"
               alt="Ringue Sombrio Fundo Menu"
               className="w-full h-full object-cover filter brightness-75 contrast-125"
             />
           </div>
-          <div className="absolute inset-0 bg-boxing-grid opacity-20 pointer-events-none" />
-          <div className="absolute inset-0 radial-spotlight opacity-50 pointer-events-none" />
+          <div className="absolute inset-0 radial-spotlight opacity-40 pointer-events-none" />
 
-          <div className="max-w-4xl mx-auto w-full relative z-10 space-y-6">
-            {/* Cabeçalho do Menu */}
-            <div className="flex items-center justify-between pb-3 border-b border-white/15">
-              <span className="text-xs font-mono tracking-[0.3em] uppercase text-neutral-400 font-bold">
-                SELECIONE SEU DESTINO
-              </span>
-              <span className="text-xs font-mono text-white/50 tracking-wider">
-                [DESLIZE E TOQUE]
-              </span>
-            </div>
+          {/* Botão Fechar no Canto Superior Direito */}
+          <div className="absolute top-6 right-6 sm:right-10 z-20">
+            <button
+              onClick={() => setMobileMenuOpen(false)}
+              aria-label="Fechar menu"
+              className="p-2 text-white/80 hover:text-white transition-colors focus:outline-none cursor-pointer"
+            >
+              <X className="w-8 h-8 sm:w-10 sm:h-10" />
+            </button>
+          </div>
 
-            {/* Lista com Efeito Deslizante Suave nos Títulos */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 pt-2">
+          {/* Lista de Navegação Estilo Nike: Títulos em Caixa Alta, Grandes, sem Caixas ou Números */}
+          <div className="relative z-10 max-w-4xl my-auto py-6">
+            <nav className="flex flex-col space-y-2 sm:space-y-4">
               {navLinks.map((link) => (
                 <button
                   key={link.label}
                   onClick={() => handleNavClick(link.href)}
-                  className="w-full text-left p-4 rounded-xl border border-white/10 bg-white/[0.03] hover:bg-white/[0.09] hover:border-white/30 transition-all duration-300 group flex items-center justify-between active:scale-[0.98]"
+                  className="text-left font-heading font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl uppercase tracking-tighter text-white/90 hover:text-white transition-all duration-200 transform hover:translate-x-3 sm:hover:translate-x-6 cursor-pointer select-none inline-flex items-center gap-4 group py-1"
                 >
-                  <div className="flex items-center gap-4">
-                    <span className="font-mono text-xs text-neutral-500 group-hover:text-white transition-colors">
-                      {link.num}
-                    </span>
-                    {/* Título que Desliza Suavemente para a Direita */}
-                    <div className="transform group-hover:translate-x-3 transition-transform duration-300 ease-out">
-                      <h4 className="font-heading text-xl sm:text-2xl font-black text-neutral-200 group-hover:text-white uppercase tracking-tight">
-                        {link.label}
-                      </h4>
-                      <p className="text-[11px] font-mono text-neutral-400 group-hover:text-neutral-300">
-                        {link.desc}
-                      </p>
-                    </div>
-                  </div>
-
-                  <ArrowUpRight className="w-5 h-5 text-neutral-600 group-hover:text-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-all flex-shrink-0" />
+                  <span className="relative">
+                    {link.label}
+                    {/* Linha discreta ao passar o mouse estilo Nike */}
+                    <span className="absolute -bottom-1 left-0 w-0 h-[3px] bg-white transition-all duration-300 group-hover:w-full" />
+                  </span>
+                  <span className="opacity-0 group-hover:opacity-100 transition-all duration-300 text-xl sm:text-3xl text-white transform -translate-x-2 group-hover:translate-x-0 font-light">
+                    →
+                  </span>
                 </button>
               ))}
-            </div>
+            </nav>
           </div>
 
-          {/* Rodapé do Menu com Acabamento */}
-          <div className="max-w-4xl mx-auto w-full pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 relative z-10">
-            <p className="text-xs font-mono text-neutral-400 uppercase tracking-widest">
-              BLACK BOXING • {SITE_CONFIG.brand.tagline}
-            </p>
-            <div className="flex items-center gap-4 text-xs font-heading font-bold tracking-widest uppercase">
+          {/* Rodapé Minimalista do Menu com Instagram e Marca */}
+          <div className="relative z-10 max-w-4xl pt-6 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs font-mono text-neutral-400">
+            <div className="flex items-center gap-3">
+              <span className="font-heading font-black text-white uppercase tracking-widest text-sm">
+                BLACK BOXING
+              </span>
+              <span>•</span>
+              <span className="tracking-widest uppercase">
+                {SITE_CONFIG.brand.tagline}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-5">
               <a
                 href={SITE_CONFIG.contact.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-neutral-400 hover:text-white transition-colors"
+                className="text-white hover:text-neutral-300 transition-colors uppercase font-bold tracking-wider inline-flex items-center gap-1.5"
               >
-                {SITE_CONFIG.contact.instagramHandle}
+                <span>INSTAGRAM</span>
+                <span>↗</span>
               </a>
               <span className="text-neutral-700">•</span>
               <button
@@ -217,9 +200,9 @@ export const Header: React.FC<HeaderProps> = ({ onOpenWhatsAppModal }) => {
                   setMobileMenuOpen(false);
                   onOpenWhatsAppModal();
                 }}
-                className="text-[#25D366] hover:underline"
+                className="text-neutral-300 hover:text-white transition-colors uppercase font-bold tracking-wider cursor-pointer"
               >
-                {SITE_CONFIG.contact.phoneFormatted}
+                CONTATO
               </button>
             </div>
           </div>

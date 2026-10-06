@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SITE_CONFIG } from '../config/siteData';
+import { getCachedTransparentLogo, generateTransparentLogo } from '../utils/transparentLogo';
 
 interface BrandLogoProps {
   className?: string;
@@ -9,8 +10,9 @@ interface BrandLogoProps {
 
 /**
  * Componente oficial de exibição da logo Black Boxing.
- * Remove completamente o fundo escuro e amplia a área útil das letras e do símbolo,
- * eliminando as margens vazias da foto enviada para atingir o tamanho real pretendido de ~5cm.
+ * Remove 100% de qualquer fundo, caixa, moldura ou quadrado preto/cinza.
+ * Exibe a logo com transparência real em PNG isolado, ampliando a nitidez
+ * e ocupando o espaço pretendido com impacto máximo.
  */
 export const BrandLogo: React.FC<BrandLogoProps> = ({
   className = 'h-20 sm:h-24 md:h-28 w-auto',
@@ -20,12 +22,35 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   const [imgError, setImgError] = useState(false);
 
   const isDarkVariant = variant === 'dark';
-  const logoSource = isDarkVariant ? SITE_CONFIG.brand.logoDarkUrl : SITE_CONFIG.brand.logoUrl;
+  const rawSource = isDarkVariant ? SITE_CONFIG.brand.logoDarkUrl : SITE_CONFIG.brand.logoUrl;
+  const mode = isDarkVariant ? 'dark' : 'white';
+
+  const [activeSrc, setActiveSrc] = useState<string>(() => {
+    return getCachedTransparentLogo(rawSource, mode) || rawSource;
+  });
+
+  const [isProcessed, setIsProcessed] = useState<boolean>(() => {
+    return !!getCachedTransparentLogo(rawSource, mode);
+  });
+
+  useEffect(() => {
+    const cached = getCachedTransparentLogo(rawSource, mode);
+    if (cached) {
+      setActiveSrc(cached);
+      setIsProcessed(true);
+      return;
+    }
+
+    generateTransparentLogo(rawSource, mode, (processedUrl) => {
+      setActiveSrc(processedUrl);
+      setIsProcessed(true);
+    });
+  }, [rawSource, mode]);
 
   if (imgError) {
     return (
       <div
-        className={`font-heading font-black tracking-wider uppercase ${
+        className={`font-heading font-black tracking-wider uppercase select-none ${
           isDarkVariant ? 'text-black' : 'text-white'
         } ${className} flex items-center`}
       >
@@ -35,21 +60,31 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   }
 
   return (
-    <div className={`relative inline-flex items-center justify-start overflow-hidden select-none ${className}`}>
-      {/* 
-        Para fundos escuros (variant='white'): logo branca oficial com mix-blend-mode: screen.
-        Para fundos claros (variant='dark'): logo preta oficial (https://ibb.co/QFCMKb2f) com mix-blend-mode: multiply.
-      */}
+    <div
+      className={`relative inline-flex items-center justify-start select-none bg-transparent overflow-visible ${className}`}
+    >
       <img
-        src={logoSource}
+        src={activeSrc}
         alt={alt}
+        loading="eager"
+        decoding="sync"
+        fetchPriority="high"
         onError={() => setImgError(true)}
-        className={`w-full h-full object-contain transform scale-[1.38] transition-transform duration-300 ${
-          isDarkVariant ? 'filter contrast-150' : 'filter brightness-125 contrast-125'
+        className={`w-auto h-full max-h-full object-contain object-left bg-transparent transition-all duration-300 ${
+          isProcessed
+            ? 'filter drop-shadow-[0_2px_14px_rgba(0,0,0,0.6)]'
+            : isDarkVariant
+            ? 'filter contrast-150'
+            : 'filter brightness-125 contrast-150'
         }`}
-        style={{
-          mixBlendMode: isDarkVariant ? 'multiply' : 'screen',
-        }}
+        style={
+          isProcessed
+            ? { background: 'transparent' }
+            : {
+                mixBlendMode: isDarkVariant ? 'multiply' : 'screen',
+                background: 'transparent',
+              }
+        }
       />
     </div>
   );

@@ -10,19 +10,22 @@ export const CompetitionSection: React.FC<CompetitionSectionProps> = ({
 }) => {
   return (
     <section id="competicao" className="relative py-14 sm:py-20 px-4 sm:px-10 bg-black text-white overflow-hidden border-t border-neutral-900 flex items-center">
-      {/* Imagem no Fundo: Cinturão de Boxe Campeão em Alta Resolução, Bem Aceso e Iluminado */}
+      {/* Imagem no Fundo: Cinturão de Boxe Campeão em Alta Resolução, Bem Aceso, Iluminado e Nítido */}
       <div className="absolute inset-0 z-0">
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/a/a0/WBC_I_OMB_2014-01-17_17-19.jpg"
-          alt="Cinturão de Boxe Campeão Mundial"
+          alt="Cinturão de Boxe Campeão Mundial WBC OMB"
           loading="eager"
           decoding="sync"
           fetchPriority="high"
-          className="w-full h-full object-cover object-center filter brightness-110 contrast-115 saturate-120 scale-100"
+          className="w-full h-full object-cover object-[center_38%] filter brightness-135 contrast-125 saturate-135 scale-100"
         />
-        {/* Camadas Suaves de Contraste para Manter o Cinturão Muito Aceso e Dourado */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/40" />
+        {/* Iluminação Dourada Esplêndida e Reflexos de Holofote no Cinturão */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_45%,rgba(255,215,0,0.22),transparent_70%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_35%,rgba(255,255,255,0.14),transparent_45%)] pointer-events-none" />
+        {/* Camadas Leves de Contraste para Garantir Leitura Perfeita do Texto sem Apagar o Cinturão */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30" />
       </div>
 
       {/* Conteúdo Mais Fino e Discreto para Não Ser o Centro Excessivo das Atenções */}

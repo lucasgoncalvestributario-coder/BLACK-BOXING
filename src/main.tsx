@@ -1,10 +1,15 @@
-import {createRoot} from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 import { SITE_CONFIG } from './config/siteData';
+import { generateTransparentLogo } from './utils/transparentLogo';
 
 // Pré-carregamento imediato de todas as fotos e logos para exibição 100% instantânea e nítida
-const preloadImages = () => {
+const preloadImagesAndAssets = () => {
+  // Pré-processar transparência da logo em memória imediatamente
+  generateTransparentLogo(SITE_CONFIG.brand.logoUrl, 'white', () => {});
+  generateTransparentLogo(SITE_CONFIG.brand.logoDarkUrl, 'dark', () => {});
+
   const urls = [
     SITE_CONFIG.brand.logoUrl,
     SITE_CONFIG.brand.logoDarkUrl,
@@ -20,11 +25,12 @@ const preloadImages = () => {
     if (url) {
       const img = new Image();
       img.decoding = 'sync';
+      (img as any).fetchPriority = 'high';
       img.src = url;
     }
   });
 };
 
-preloadImages();
+preloadImagesAndAssets();
 
 createRoot(document.getElementById('root')!).render(<App />);

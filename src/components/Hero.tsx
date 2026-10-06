@@ -10,20 +10,8 @@ export const Hero: React.FC<HeroProps> = ({
   onOpenWhatsAppModal,
   onExploreTrainings,
 }) => {
-  const [step, setStep] = useState(0);
-
-  useEffect(() => {
-    // Sequência de entrada impulsionada por impacto
-    const t1 = setTimeout(() => setStep(1), 150);
-    const t2 = setTimeout(() => setStep(2), 550);
-    const t3 = setTimeout(() => setStep(3), 950);
-
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
-    };
-  }, []);
+  // Inicializado em 3 para que o título apareça 100% imediatamente assim que o site abrir
+  const [step] = useState(3);
 
   return (
     <section
